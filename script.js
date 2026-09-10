@@ -954,77 +954,70 @@ function generateMap() {
 
 }
 
-
 // ==========================================
 // 🏠 المنصات الأولى
 // ==========================================
 
 platforms.push({
-
     x: -500,
-
     y: 455,
-
     width: 1500,
-
     height: 45
-
 });
 
-
 platforms.push({
-
     x: 150,
-
     y: 370,
-
     width: 150,
-
     height: 20
-
 });
 
-
 platforms.push({
-
     x: 370,
-
     y: 310,
-
     width: 150,
-
     height: 20
-
 });
 
-
 platforms.push({
-
     x: 600,
-
     y: 370,
-
     width: 150,
-
     height: 20
-
 });
-
 
 platforms.push({
-
     x: 800,
-
     y: 290,
-
     width: 150,
-
     height: 20
-
 });
-
 
 generateMap();
+
+
+// ==========================================
+// 🔄 زر إعادة اللعب
+// ==========================================
+
+const restartButton = document.createElement("button");
+
+restartButton.id = "restartButton";
+restartButton.textContent = "🔄 إعادة اللعب";
+
+restartButton.style.display = "none";
+restartButton.style.margin = "15px auto";
+restartButton.style.padding = "14px 35px";
+restartButton.style.fontSize = "21px";
+restartButton.style.fontWeight = "bold";
+restartButton.style.border = "none";
+restartButton.style.borderRadius = "14px";
+restartButton.style.background = "#374151";
+restartButton.style.color = "white";
+restartButton.style.cursor = "pointer";
+restartButton.style.touchAction = "manipulation";
+
+gameScreen.appendChild(restartButton);
 
 
 // ==========================================
@@ -1034,19 +1027,10 @@ generateMap();
 function collision(a, b) {
 
     return (
-
-        a.x <
-            b.x + b.width &&
-
-        a.x + a.width >
-            b.x &&
-
-        a.y <
-            b.y + b.height &&
-
-        a.y + a.height >
-            b.y
-
+        a.x < b.x + b.width &&
+        a.x + a.width > b.x &&
+        a.y < b.y + b.height &&
+        a.y + a.height > b.y
     );
 
 }
@@ -1058,19 +1042,130 @@ function collision(a, b) {
 
 function resetPlayer() {
 
-    player.x =
-        Math.max(
-            100,
-            player.x - 250
-        );
+    player.x = Math.max(
+        100,
+        player.x - 250
+    );
 
     player.y = 200;
 
     player.vx = 0;
-
     player.vy = 0;
 
 }
+
+
+// ==========================================
+// 🔄 إعادة اللعبة بالكامل
+// ==========================================
+
+function restartGame() {
+
+    lives = 3;
+
+    livesText.textContent = lives;
+
+    gameOver = false;
+    gameStarted = true;
+
+    player.x = 100;
+    player.y = 350;
+
+    player.vx = 0;
+    player.vy = 0;
+
+    player.onGround = false;
+
+    cameraX = 0;
+
+    platforms = [
+        {
+            x: -500,
+            y: 455,
+            width: 1500,
+            height: 45
+        },
+
+        {
+            x: 150,
+            y: 370,
+            width: 150,
+            height: 20
+        },
+
+        {
+            x: 370,
+            y: 310,
+            width: 150,
+            height: 20
+        },
+
+        {
+            x: 600,
+            y: 370,
+            width: 150,
+            height: 20
+        },
+
+        {
+            x: 800,
+            y: 290,
+            width: 150,
+            height: 20
+        }
+    ];
+
+    coins = [];
+
+    enemies = [];
+
+    generatedUntil = 950;
+
+    keys["ArrowLeft"] = false;
+    keys["ArrowRight"] = false;
+    keys[" "] = false;
+    keys["ArrowUp"] = false;
+
+    restartButton.style.display = "none";
+
+    generateMap();
+
+    startMusic();
+
+}
+
+
+// زر إعادة اللعب
+restartButton.addEventListener(
+    "click",
+    function() {
+
+        restartGame();
+
+    }
+);
+
+
+// ==========================================
+// ▶️ تشغيل اللعبة عند الضغط على ابدأ
+// ==========================================
+
+startButton.addEventListener(
+    "click",
+    function() {
+
+        mainMenu.style.display = "none";
+
+        shopScreen.style.display = "none";
+
+        settingsScreen.style.display = "none";
+
+        gameScreen.style.display = "block";
+
+        restartGame();
+
+    }
+);
 
 
 // ==========================================
@@ -1083,9 +1178,7 @@ function update() {
         !gameStarted ||
         gameOver
     ) {
-
         return;
-
     }
 
 
@@ -1236,15 +1329,12 @@ function update() {
                 coin.collected =
                     true;
 
-
                 score++;
-
 
                 coinsText.textContent =
                     score;
 
 
-                // حفظ العملات
                 localStorage.setItem(
                     "playerCoins",
                     score
@@ -1271,15 +1361,16 @@ function update() {
 
         if (
 
-            enemy.x <= enemy.min ||
+            enemy.x <=
+                enemy.min ||
+
             enemy.x +
                 enemy.width >=
                 enemy.max
 
         ) {
 
-            enemy.speed *=
-                -1;
+            enemy.speed *= -1;
 
         }
 
@@ -1293,10 +1384,8 @@ function update() {
 
             lives--;
 
-
             livesText.textContent =
                 lives;
-
 
             resetPlayer();
 
@@ -1308,8 +1397,6 @@ function update() {
                 gameOver =
                     true;
 
-                startMusic();
-
             }
 
         }
@@ -1318,7 +1405,7 @@ function update() {
 
 
     // ======================================
-    // السقوط
+    // 💀 السقوط
     // ======================================
 
     if (
@@ -1327,10 +1414,8 @@ function update() {
 
         lives--;
 
-
         livesText.textContent =
             lives;
-
 
         resetPlayer();
 
@@ -1341,8 +1426,6 @@ function update() {
 
             gameOver =
                 true;
-
-            startMusic();
 
         }
 
@@ -1372,13 +1455,10 @@ function update() {
 
     const distance =
         Math.max(
-
             0,
-
             Math.floor(
                 (player.x - 100) / 10
             )
-
         );
 
 
@@ -1467,15 +1547,11 @@ function drawBackground() {
     ) {
 
         ctx.drawImage(
-
             background,
-
             0,
             0,
-
             canvas.width,
             canvas.height
-
         );
 
     } else {
@@ -1484,13 +1560,10 @@ function drawBackground() {
             "#87CEEB";
 
         ctx.fillRect(
-
             0,
             0,
-
             canvas.width,
             canvas.height
-
         );
 
     }
@@ -1525,15 +1598,10 @@ function draw() {
 
 
         ctx.fillRect(
-
             screenX,
-
             platform.y,
-
             platform.width,
-
             platform.height
-
         );
 
 
@@ -1542,15 +1610,10 @@ function draw() {
 
 
         ctx.fillRect(
-
             screenX,
-
             platform.y,
-
             platform.width,
-
             7
-
         );
 
     }
@@ -1581,17 +1644,11 @@ function draw() {
 
 
             ctx.arc(
-
                 screenX,
-
                 coin.y,
-
                 12,
-
                 0,
-
                 Math.PI * 2
-
             );
 
 
@@ -1629,15 +1686,10 @@ function draw() {
 
 
         ctx.fillRect(
-
             screenX,
-
             enemy.y,
-
             enemy.width,
-
             enemy.height
-
         );
 
 
@@ -1646,28 +1698,18 @@ function draw() {
 
 
         ctx.fillRect(
-
             screenX + 6,
-
             enemy.y + 7,
-
             7,
-
             7
-
         );
 
 
         ctx.fillRect(
-
             screenX + 22,
-
             enemy.y + 7,
-
             7,
-
             7
-
         );
 
     }
@@ -1683,24 +1725,16 @@ function draw() {
 
 
     if (
-
         character.complete &&
         character.naturalWidth > 0
-
     ) {
 
         ctx.drawImage(
-
             character,
-
             playerScreenX,
-
             player.y,
-
             player.width,
-
             player.height
-
         );
 
     }
@@ -1719,13 +1753,10 @@ function draw() {
 
 
         ctx.fillRect(
-
             0,
             0,
-
             canvas.width,
             canvas.height
-
         );
 
 
@@ -1742,13 +1773,9 @@ function draw() {
 
 
         ctx.fillText(
-
             "💀 انتهت اللعبة",
-
             canvas.width / 2,
-
             220
-
         );
 
 
@@ -1757,14 +1784,14 @@ function draw() {
 
 
         ctx.fillText(
-
-            "اضغط F5 للعب من جديد",
-
+            "اضغط على زر إعادة اللعب",
             canvas.width / 2,
-
             270
-
         );
+
+
+        restartButton.style.display =
+            "block";
 
     }
 
