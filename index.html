@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>مغامرة الفارس</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ========================= -->
+    <!-- القائمة الرئيسية -->
+    <!-- ========================= -->
+
+    <div id="mainMenu">
+
+        <h1>⚔️ مغامرة الفارس ⚔️</h1>
+
+        <button id="startButton">
+            🎮 ابدأ المغامرة
+        </button>
+
+        <button id="shopButton">
+            🛒 المتجر
+        </button>
+
+        <button id="settingsButton">
+            ⚙️ الإعدادات
+        </button>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- شاشة المتجر -->
+    <!-- ========================= -->
+
+    <div id="shopScreen" class="screen">
+
+        <h1>🛒 المتجر</h1>
+
+        <h2>مازال مانديره 🛠️</h2>
+
+        <button class="backButton">
+            🔙 رجوع
+        </button>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- شاشة الإعدادات -->
+    <!-- ========================= -->
+
+    <div id="settingsScreen" class="screen">
+
+        <h1>⚙️ الإعدادات</h1>
+
+        <button class="backButton">
+            🔙 رجوع
+        </button>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- اللعبة -->
+    <!-- ========================= -->
+
+    <div id="gameScreen">
+<button id="backToMenuGame">🏠 القائمة الرئيسية</button>
+
+        <h1>⚔️ مغامرة الفارس ⚔️</h1>
+
+        <div id="info">
+
+            <span>
+                🪙 العملات:
+                <b id="coins">0</b>
+            </span>
+
+            <span>
+                ❤️ الحياة:
+                <b id="lives">3</b>
+            </span>
+
+            <span>
+                📏 المسافة:
+                <b id="distance">0</b>م
+            </span>
+
+            <span>
+                🏆 الرقم القياسي:
+                <b id="highScore">0</b>م
+            </span>
+
+        </div>
+
+
+        <canvas
+            id="game"
+            width="900"
+            height="500">
+        </canvas>
+
+
+        <div class="controls">
+
+            <button id="right">
+                ➡️
+            </button>
+
+            <button id="jump">
+                ⬆️ قفز
+            </button>
+
+            <button id="left">
+                ⬅️
+            </button>
+
+        </div>
+
+
+        <p>
+            الكمبيوتر: ← → للحركة و Space للقفز
+        </p>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
